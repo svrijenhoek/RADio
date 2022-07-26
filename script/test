@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -e
+
+script/bootstrap
+
+# Install test requirements
+pip install --quiet --requirement test-requirements.txt
+
+# Run pylint, only locally
+if [[ -z "$CI" ]]; then
+    python -m pylint dart
+fi
+
+python -m spacy download nl > /dev/null
+
+# Run test with pytest, including doctests
+python -m pytest --doctest-modules --junit-xml=pytest.xml
+
+# Run unit tests again, but with nose for coverage report
+python -m nose --with-doctest --with-xcoverage --with-xunit --cover-package=dart --cover-erase 2> /dev/null

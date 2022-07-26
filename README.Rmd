@@ -1,0 +1,71 @@
+---
+title: "RADio"
+author: ""
+output: 
+  rmarkdown::github_document:
+    number_sections: true
+    toc_depth: 2
+    toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F, warning = F, message = F)
+library(knitr)
+library(kableExtra)
+```
+
+
+```{r}
+library(emo)
+```
+
+
+This repository contains the supporting material for the paper `r emo::ji("radio")` *RADio – Rank-Aware Divergence metrIcs to measure nOrmative diversity in news recommendations*.
+
+# Computing RADio with rank-aware JS-divergence
+
+```{}
+git clone https://anonymous.4open.science/r/RADio/
+pip install -f requirements.txt
+python metrics_calculations.py
+```
+
+
+# Additional Material
+
+## Jensen Shannon as an f-Divergence
+
+```{r}
+include_graphics("viz/figs/JSasF.jpg")
+
+```
+
+## RADio with KL divergence
+
+```{r}
+
+d <- read.csv("viz/meanTableKL.csv")
+kable(d[,2:8], digits = 4, caption = "RADio framework with DART metrics based on KL divergence with recommendation algorithms on the MIND dataset. From left to right:  Calibration (topic), Calibration (complexity), Fragmentation, Activation, Representation and Alternative Voices. These metrics are executed on a random sample of 35.000 users, with rank-awareness, and without cutoff point.")
+```
+
+## Jensen-Shannon divergence Kullback-Leibler divergence with and without rank-awareness
+
+```{r, fig.cap="Jensen-Shannon divergence for each DART metric, with and without rank-awareness, with a cutoff @10. Boxplot with median and the interquartile range in the inner box."}
+include_graphics("viz/figs/KL.jpg")
+
+```
+
+```{r, fig.cap="Kullback-Leibler divergence for each DART metric, with and without rank-awareness, with a cutoff @10. Boxplot with median and the interquartile range in the inner box."}
+include_graphics("viz/figs/JS.jpg")
+
+```
+
+
+
+## Jensen-Shannon divergence for all recommender strategies without cutoff
+
+```{r, fig.cap="Jensen-Shannon divergence for each DART metric for all neural recommender strategies, with and without rank-awareness, and without a cutoff. Without rank-awareness and cutoff no divergence is found for the Activation, Representation and Alternative Voices metrics, as in these cases the recommendation and the context are identical. Boxplot with median and the interquartile range in the inner box."}
+include_graphics("viz/figs/boxplot_full.jpg")
+```
+
+

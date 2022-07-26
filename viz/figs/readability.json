@@ -1,0 +1,52 @@
+[
+  {
+    "URL": "https://github.com/cdimascio/py-readability-metrics",
+    "abstract": "Score text \"Readability\" with popular formulas and metrics including Flesch-Kincaid, Gunning Fog, ARI, Dale Chall, SMOG, Spache and more",
+    "accessed": {
+      "date-parts": [
+        [
+          2022,
+          1,
+          22
+        ]
+      ]
+    },
+    "author": [
+      {
+        "literal": "Carmine DiMAscio"
+      }
+    ],
+    "categories": [
+      "software",
+      "python",
+      "libraries",
+      "pypi",
+      "License :: OSI Approved :: MIT License",
+      "Operating System :: OS Independent",
+      "Programming Language :: Python :: 3"
+    ],
+    "id": "py-readability-metrics",
+    "issued": {
+      "date-parts": [
+        [
+          2020,
+          8,
+          2
+        ]
+      ]
+    },
+    "original-date": {
+      "date-parts": [
+        [
+          2019,
+          1,
+          1
+        ]
+      ]
+    },
+    "publisher": "GitHub",
+    "title": "py-readability-metrics",
+    "type": "webpage",
+    "version": "1.4.5"
+  }
+]

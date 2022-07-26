@@ -1,0 +1,430 @@
+﻿cue;frequency;classification
+political party;4541;politics
+musical group;3019;entertainment
+daily newspaper;2930;general
+association football club;1824;sport
+business;1782;business
+automobile manufacturer;1625;business
+painting;1501;entertainment
+Green party;1276;politics
+amateur football club;1187;sport
+cleaning product;1186;general
+enterprise;1006;business
+political organisation;684;politics
+institution of the European Union;544;politics
+economic union;541;general
+regional organization;530;general
+political territorial entity;514;politics
+supranational union;514;general
+radio station;474;entertainment
+bicameral legislature;372;politics
+scientific journal;366;general
+specialty channel;356;general
+city of the United States;356;general
+bank;348;business
+multinational corporation;345;business
+executive branch;340;business
+newspaper;332;general
+dual-listed company;332;business
+brand;317;general
+magazine;317;entertainment
+lower house;315;politics
+automobile marque;312;general
+government organization;311;politics
+trademark;301;general
+"""womens association football team""";294;sport
+public ministry;292;politics
+terrorist organization;283;general
+motorcycle manufacturer;273;general
+periodical literature;272;general
+record label;262;entertainment
+United States cable news;256;general
+rock band;216;entertainment
+television station;213;entertainment
+auto racing team;212;sport
+organization;189;business
+airline;187;business
+international organization;178;business
+government agency;173;politics
+media enterprise;170;entertainment
+international parliament;166;politics
+intergovernmental organization;164;politics
+public broadcasting;156;general
+position;148;general
+automobile racing series;139;general
+Dutch resistance newspaper;136;general
+subject of international law;135;general
+website;133;general
+supreme court;133;general
+resistance movement;132;politics
+religious organization;131;general
+financial institution;130;business
+house of commons;127;politics
+city;127;general
+municipality;127;general
+historical motorcycle manufacturer;125;general
+partido of Buenos Aires;124;general
+town of the United States;123;general
+cooperative bank;116;business
+Council of state;116;general
+administrative court;116;general
+software company;113;business
+political party in Germany;111;politics
+public company;109;business
+broadcaster;102;entertainment
+New England town;98;general
+municipality of Quebec;94;general
+international non-governmental organization;93;general
+university;92;general
+"""womens association football club""";91;sport
+major party;89;politics
+sister party;89;politics
+nonprofit organization;88;general
+ministry of the Netherlands;87;politics
+rallying team;87;sport
+energy drink;86;business
+armed organization;85;general
+stable;79;general
+racecar constructor;79;general
+international sport governing body;78;sport
+brewery;78;general
+beer brand;78;general
+social networking service;77;business
+aerospace manufacturer;76;business
+interior ministry;73;general
+programming language;70;general
+television channel;68;entertainment
+subsidiary;66;business
+professional cycling team;66;sport
+basketball team;66;sport
+pilsner;65;general
+sculpture;62;general
+militia;60;general
+principal organ of the United Nations;58;politics
+caliphate;58;general
+self-proclaimed state;58;general
+self-proclaimed monarchy;58;general
+publisher;58;entertainment
+academic journal;56;general
+cable channel;56;entertainment
+low-cost airline;56;business
+major label;55;entertainment
+international court;54;general
+drawing;53;general
+finance ministry;51;politics
+sports league;48;sport
+auto racing club;47;sport
+association football league;47;sport
+historical country;46;general
+print;44;general
+distillery;44;business
+borough of Pennsylvania;43;general
+central bank;42;business
+television program;42;entertainment
+book publishing company;41;general
+specialized agency of the United Nations;39;general
+television network;39;entertainment
+procedural programming language;38;general
+professional services firm;38;business
+Principality;37;general
+video game publisher;37;business
+retail chain;36;business
+off-side rule language;36;general
+food safety organisation;34;general
+professional sports league;33;sport
+professional sports team;33;sport
+association football team;33;sport
+agency of the European Union;33;general
+metro station;32;general
+station located underground;31;general
+UCI WorldTeam;30;sport
+UCI ProTeam;30;sport
+postal service;30;general
+department;29;general
+research institute;27;general
+open-access journal;27;general
+titular see;27;general
+legislature;27;general
+sports team;27;sport
+political union;27;politics
+football federation;26;sport
+state-owned enterprise;26;business
+voluntary association;24;general
+book;24;general
+brick and mortar company;24;business
+sports club;24;sport
+non-governmental organization;23;general
+music festival;23;entertainment
+treaty;23;general
+multi-sport club;23;sport
+work of art;22;general
+secret service;22;general
+security agency;22;business
+supermarket chain;22;business
+credit institution;22;business
+international financial institution;21;business
+state agency;19;general
+annual event;19;general
+open-access publisher;19;general
+food manufacturer;19;business
+public limited company;19;business
+club;18;general
+theatrical troupe;17;entertainment
+nature reserve;17;general
+jurisdiction;17;general
+engraving;17;general
+written work;17;general
+geographic map;17;general
+ghost station;16;general
+continental union;16;general
+environmental organization;16;general
+law enforcement agency;15;business
+single;14;general
+video game developer;14;business
+holiday;13;general
+public holidays in Russia;13;general
+advisory board;13;general
+council;13;general
+Pirate Party;13;politics
+multi-paradigm programming language;13;general
+professional services network;12;general
+data protection supervisory authority;12;general
+gendarmerie;12;general
+national academy;12;general
+Swedish Royal Academies;12;general
+academy of sciences;12;general
+sports competition;12;sport
+news agency;12;general
+TV production company;12;business
+weekly newspaper;12;general
+etching;11;general
+watercolor painting;11;general
+armed forces;11;general
+IT consulting company;11;business
+municipality of Colombia;11;general
+launch service provider;11;general
+postal, telegraph and telephone service;11;general
+military alliance;11;general
+song;11;entertainment
+military reserve force;11;general
+transport company;11;business
+version, edition, or translation;11;general
+orchestra;10;entertainment
+Metrolinx mobility hub;10;general
+underground railway station;10;general
+large bank;10;business
+e-commerce payment system;10;general
+financial product;10;general
+regulatory agency;10;general
+Formula One constructor;9;sport
+provisional government;9;general
+all-female band;9;entertainment
+cola;9;general
+soft drink;9;general
+animated character;9;entertainment
+functional programming language;9;general
+girl group;9;entertainment
+boy band;9;entertainment
+think tank;8;general
+parliamentary group;8;politics
+township of New Jersey;8;general
+adviesorgaan;8;general
+railway company;8;business
+association;8;general
+"""womens association""";8;general
+regional bus;7;general
+intercity bus company;7;business
+pay television;7;general
+stock exchange;7;business
+local broadcaster in the Netherlands;7;general
+oil company;7;business
+private equity firm;7;business
+rail vehicle manufacturer;7;business
+S.A.;7;general
+teaching hospital;6;general
+consumer organization;6;general
+file format;6;general
+organizational unit;6;general
+village in the United States;6;general
+telecommunication company;6;business
+tabloid;6;general
+political alliance;5;general
+movie theater;5;entertainment
+city of Oregon;5;general
+investment bank;5;general
+advocacy group;5;general
+energy company;5;business
+theatre chain;5;general
+production company;5;business
+trade union;5;general
+art biennial;5;general
+symphonic orchestra;4;general
+ensemble;4;general
+revenue house;4;general
+woodcut print;4;general
+literary award;4;general
+award;4;general
+national sports team;4;sport
+theatre;4;entertainment
+federal electoral district of Canada;4;general
+air force;4;general
+theatre festival;4;entertainment
+album;4;entertainment
+art movement;4;entertainment
+health system;4;general
+Wikipedia article covering multiple topics;4;general
+privately held company;4;business
+pressure group;4;general
+project;4;general
+company;4;business
+statistical service;4;general
+Directorate-General;4;general
+embede;4;general
+town;3;general
+economic affairs ministry;3;politics
+data collection system;3;general
+municipality of the Netherlands;3;general
+military branch;3;general
+intelligence agency;3;general
+duo;3;general
+sports newspaper;3;sport
+object-based language;3;general
+art group;3;entertainment
+Q3190900;3;general
+holding company;3;business
+data controller;3;general
+online newspaper;3;general
+American football team;3;sport
+baseball team;3;sport
+VoIP software;3;general
+softphone;3;general
+Voice over Internet Protocol;3;general
+VoIP phone;3;general
+instant messaging client;3;general
+military unit;3;general
+group of humans;3;general
+quasi-autonomous non-governmental organisation;3;general
+municipality of Brazil;3;general
+state of Nigeria;3;general
+United Nations System;2;general
+Formula One team;2;sport
+string quartet;2;entertainment
+assembly;2;general
+police tactical unit;2;general
+foundation;2;general
+imprint;2;general
+installation;2;general
+501(c)(3) organization;2;general
+pharmaceutical company;2;business
+record company;2;business
+canon;2;general
+collage;2;general
+redistribution market;2;general
+fan convention;2;entertainment
+e-sport competition;2;sport
+josei manga magazine;2;entertainment
+Young Ladies comic;2;entertainment
+film festival;2;entertainment
+tell;2;general
+kibbutz;2;general
+archaeological site;2;general
+marine unit;2;general
+marines;2;general
+former municipality of Estonia;2;general
+municipality of Sweden;2;general
+rural municipality of Estonia;2;general
+criminal organization;2;general
+charitable organization;2;general
+train service;2;general
+passenger train;2;general
+London borough;2;general
+city of Japan;2;general
+capital of prefecture;2;general
+prefecture of Japan;2;general
+cadastre;2;general
+recurring event;2;general
+wrestling event;2;sport
+UCI Professional Continental Team;2;sport
+borough of New Jersey;2;general
+building complex;2;general
+visual programming language;2;general
+art school;2;general
+conglomerate;2;general
+architectural structure;1;general
+university building;1;general
+parish of Barbados;1;general
+college of the University of Oxford;1;general
+frigate;1;general
+serif typeface;1;general
+software;1;general
+Q1832795;1;general
+civil rights movement;1;politics
+higher education institution;1;general
+federal electoral district in Quebec;1;politics
+provincial electoral district of Quebec;1;politics
+regional county municipality;1;general
+constituency;1;general
+laboratory;1;general
+corporation;1;business
+agriculture ministry;1;politics
+art museum;1;general
+public university;1;general
+mobile phone series;1;general
+collective;1;general
+paramilitary;1;general
+professional body;1;general
+scientific society;1;general
+female beauty pageant;1;entertainment
+service on internet;1;general
+free software;1;general
+digital distribution;1;general
+streaming media receiver;1;general
+museum;1;general
+concept programming language;1;general
+foreign affairs ministry;1;politics
+international broadcaster;1;entertainment
+former liberal party;1;politics
+musical duo;1;entertainment
+learned society;1;general
+national trade union center;1;general
+village;1;general
+street;1;general
+transport ministry;1;general
+ministry of public works;1;general
+recurring sporting event;1;sport
+shipping line;1;general
+popular science magazine;1;general
+bookcase;1;general
+3D computer graphics software;1;general
+cultural institution;1;entertainment
+rugby union franchise;1;sport
+military airbase;1;general
+book fair;1;general
+nation state;1;general
+restaurant;1;general
+Wikimedia disambiguation page;1;general
+design studio;1;general
+architectural firm;1;general
+military academy;1;general
+animation studio;1;entertainment
+film production company;1;entertainment
+transmission system operator;1;general
+federally funded research and development center;1;general
+video hosting service;1;general
+automobile model;1;general
+architectural style;1;general
+hardware store chain;1;general
+arts educational institution;1;general
+law firm;1;general
+city of Pennsylvania;1;general
+county seat;1;general
+rapid transit railway line;1;general
+"""childrens interest channel""";1;entertainment
+private foundation (US);1;general
+school building;1;general
+patent office;1;general
+music newspaper;1;entertainment
+music magazine;1;entertainment
+UCI Continental Team;1;sport
+weekly magazine;1;general
+aid agency;1;general
