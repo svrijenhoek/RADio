@@ -24,6 +24,12 @@ This repository contains the supporting material for the paper `r emo::ji("radio
 
 # Computing RADio with rank-aware JS-divergence
 
+1. download `articles_large.pickle`: https://drive.google.com/file/d/1XgXetSxweN9rLo6vCMMR5ur5lvYWJYCY/view?usp=sharing
+2. download `recommendations_large_all_recs_no_cap.pickle`: https://drive.google.com/file/d/17X9fkhBxzNhHhWgb_XHQJ1WVexhnsZnX/view?usp=sharing
+3. Put `articles_large.pickle` and `recommendations_large_all_recs_no_cap.pickle` in the data folder
+4. download `behaviors_large.tsv`: https://drive.google.com/file/d/13ENNPX7f7Qb2vLtdp94Zo5lBflch_hiJ/view?usp=sharing
+5. Put `behaviors_large.tsv` in the data/recommendations folder
+
 ```{}
 git clone https://anonymous.4open.science/r/RADio/
 pip install -r requirements.txt
