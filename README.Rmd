@@ -26,7 +26,7 @@ This repository contains the supporting material for the paper `r emo::ji("radio
 
 ```{}
 git clone https://anonymous.4open.science/r/RADio/
-pip install -f requirements.txt
+pip install -r requirements.txt
 python metrics_calculations.py
 ```
 
