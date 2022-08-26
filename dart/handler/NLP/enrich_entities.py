@@ -1,6 +1,5 @@
 import dart.Util
 import dart.handler.other.wikidata
-import dart.handler.other.openstreetmap
 import string
 import pandas as pd
 from collections import defaultdict
@@ -12,7 +11,6 @@ class EntityEnricher:
         self.handlers = handlers
         self.metrics = metrics
         self.language = language
-        self.openstreetmap = dart.handler.other.openstreetmap.OpenStreetMap()
         self.wikidata = dart.handler.other.wikidata.WikidataHandler(self.language)
         self.printable = set(string.printable)
         self.political_data = pd.DataFrame(politics)
@@ -43,11 +41,6 @@ class EntityEnricher:
         if entity['label'] == 'PER' or entity['label'] == 'PERSON':
             if 'occupation' not in entity:
                 entity = self.retrieve_person_data(entity)
-            # if 'ethnicity' in self.metrics and 'ethnicity' not in entity:
-            #     entity = self.retrieve_ethnicity(entity)
-        if entity['label'] == 'LOC' or entity['label'] == 'GPE':
-            if 'country_code' not in entity:
-                entity = self.retrieve_geolocation(entity)
         if entity['label'] == 'ORG':
             if 'type' not in entity:
                 entity = self.retrieve_company_data(entity)
@@ -113,46 +106,6 @@ class EntityEnricher:
         except KeyError:
             pass
         return data
-
-    def retrieve_geolocation(self, entity):
-        name = entity['text']
-        place = ''.join(filter(lambda x: x in self.printable, name))
-        place = place.replace('\n', '').replace('\r', '')
-        if len(place) > 2 and '|' not in place and place.lower() != 'None'.lower():
-            known_entry = self.known(name, entity['alternative'], 'locations')
-            if known_entry:
-                location = known_entry
-                entity['location'] = {
-                    'lat': location['lat'],
-                    'lon': location['lon']
-                }
-                entity['country_code'] = location['country_code']
-            else:
-                try:
-                    # retrieve the coordinates from OpenStreetMap
-                    try:
-                        lat, lon, country_code = self.openstreetmap.get_coordinates(place)
-                        if not lat == 0 or not lon == 0 or not country_code == 0:
-                            # self.known_locations[place] = {'country_code': country_code, 'lat': lat, 'lon': lon,
-                            #                               'alternative': entity['alternative']}
-                            entity['location'] = {
-                                'lat': lat,
-                                'lon': lon
-                            }
-                            entity['country_code'] = country_code
-                            self.handlers.entities.insert_one('locations', {
-                                'key': name,
-                                'country_code': country_code,
-                                'lat': lat, 'lon': lon,
-                                'alternative': entity['alternative']
-                            })
-                        else:
-                            entity['calculated'] = 'Y'
-                    except TypeError:
-                        pass
-                except IndexError:
-                    entity['calculated'] = 'Y'
-        return entity
 
     def retrieve_company_data(self, entity):
         name = entity['text']
