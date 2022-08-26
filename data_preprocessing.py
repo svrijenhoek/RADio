@@ -7,8 +7,6 @@ import threading
 import dart.Util
 import dart.preprocess.downloads
 import dart.preprocess.add_articles
-import dart.preprocess.generate_users
-import dart.preprocess.generate_recommendations
 import dart.metrics.start_calculations
 import dart.models.Handlers
 import dart.preprocess.enrich_articles
@@ -38,9 +36,6 @@ def main():
     thread_cluster_stories = threading.Thread(
        target=dart.preprocess.identify_stories.StoryIdentifier(handlers, config).execute,
        args=())
-    thread_add_users = threading.Thread(
-        target=dart.preprocess.generate_users.UserSimulator(config, handlers).execute,
-        args=("data/recommendations/behaviors_large.tsv",))
 
     config = dart.Util.read_full_config_file()
 
@@ -74,21 +69,6 @@ def main():
     # if dart.handler.mongo.connector.MongoConnector().collection_exists('support', 'stories'):
     #     dart.handler.mongo.connector.MongoConnector().drop_collection('support', 'stories')
     # thread_cluster_stories.start()
-
-    # print(str(datetime.datetime.now())+"\tloading users")
-    # if dart.handler.mongo.connector.MongoConnector().database_exists('users') and config["append"] == "N":
-    #     dart.handler.mongo.connector.MongoConnector().drop_database('users')
-    # thread_add_users.start()
-    # thread_add_users.join()
-    # thread_cluster_stories.join()
-    #
-    # # step 3: simulate recommendations
-    # print(str(datetime.datetime.now())+"\tloading recommendations")
-    # if dart.handler.mongo.connector.MongoConnector().database_exists('recommendations') and config["append"] == "N":
-    #     dart.handler.mongo.connector.MongoConnector().drop_database('recommendations')
-    # module_logger.info("Generating baseline recommendations")
-    # dart.preprocess.generate_recommendations.RunRecommendations(config, handlers).execute_tsv()
-    # time.sleep(5)
 
 
 if __name__ == "__main__":
