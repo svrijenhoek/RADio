@@ -4,9 +4,7 @@ import dart.handler.NLP.annotator
 import dart.handler.other.textstat
 import dart.handler.NLP.enrich_entities
 import dart.handler.NLP.cluster_entities
-import dart.handler.other.openstreetmap
 import dart.handler.other.wikidata
-import dart.handler.NLP.classify_on_entities
 import dart.handler.NLP.sentiment
 import dart.Util
 
@@ -25,7 +23,6 @@ class Enricher:
         self.enricher = dart.handler.NLP.enrich_entities.EntityEnricher(self.metrics, self.language,
                                                                         pd.read_csv(config['politics_file']),
                                                                                     self.handlers)
-        self.classifier = dart.handler.NLP.classify_on_entities.Classifier(self.language)
         self.clusterer = dart.handler.NLP.cluster_entities.Clustering(0.9, 'a', 'b', 'metric')
         self.sentiment = dart.handler.NLP.sentiment.Sentiment(self.language)
 
@@ -51,14 +48,6 @@ class Enricher:
         doc['sentiment'] = self.sentiment.get_sentiment_score(article.text)
 
         doc['complexity'] = self.textstat.flesch_kincaid_score(article.text)
-
-        if 'classify' in self.metrics:
-            if 'entities' not in doc:
-                classification = 'unknown'
-            else:
-                classification, scope = self.classifier.classify(doc['entities'], article.text)
-            doc['classification'] = classification
-            doc['scope'] = scope
 
         doc['annotated'] = 'Y'
         self.handlers.articles.update_doc(article.id, doc)
