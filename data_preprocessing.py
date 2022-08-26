@@ -3,6 +3,7 @@ import datetime
 from elasticsearch import Elasticsearch
 import time
 import threading
+import pandas as pd
 
 import dart.Util
 import dart.preprocess.downloads
@@ -25,45 +26,44 @@ def main():
     mongo_connector = dart.handler.mongo.connector.MongoConnector()
     handlers = dart.models.Handlers.Handlers(elastic_connector, mongo_connector)
 
+    # es = Elasticsearch()
+
+    # thread_retrieve_articles = threading.Thread(
+    #     target=dart.preprocess.add_articles.AddArticles(config, handlers).execute,
+    #     args=("data/news.tsv",))
+    # thread_enrich_articles = threading.Thread(
+    #     target=dart.preprocess.enrich_articles.Enricher(handlers, config).enrich,
+    #     args=())
+    # thread_cluster_stories = threading.Thread(
+    #    target=dart.preprocess.identify_stories.StoryIdentifier(handlers, config).execute,
+    #    args=())
+    # thread_add_users = threading.Thread(
+    #     target=dart.preprocess.generate_users.UserSimulator(config, handlers).execute,
+    #     args=("data/recommendations/behaviors.tsv",))
+
+    news = pd.read_csv("data/news.tsv", sep = "\t", header = None)
+    news.iloc[0, :].to_dict()
+    
     # step 0: load config file
-
-    es = Elasticsearch()
-
-    thread_retrieve_articles = threading.Thread(
-        target=dart.preprocess.add_articles.AddArticles(config, handlers).execute,
-        args=("data/news_large.tsv",))
-    thread_enrich_articles = threading.Thread(
-        target=dart.preprocess.enrich_articles.Enricher(handlers, config).enrich,
-        args=())
-    thread_cluster_stories = threading.Thread(
-       target=dart.preprocess.identify_stories.StoryIdentifier(handlers, config).execute,
-       args=())
-    thread_add_users = threading.Thread(
-        target=dart.preprocess.generate_users.UserSimulator(config, handlers).execute,
-        args=("data/recommendations/behaviors_large.tsv",))
-
+    
     config = dart.Util.read_full_config_file()
 
+    # downloads
+    dart.preprocess.downloads.execute(config)
 
-    print("downloading MIND dataset – " + config["mind_type"] + " version")
-    dart.preprocess.downloads.download_mind(config)
-    
-    print("downloading politicians metadata")
-    dart.preprocess.downloads.download_politicians(config)
-    
     # step 1: load articles
-    # print(str(datetime.datetime.now())+"\tloading articles")
-    # if es.indices.exists(index="articles") and config["append"] == "N":
-    #     # delete index
-    #     elastic_connector.clear_index('articles')
-    #     module_logger.info("Index removed")
-    # if not es.indices.exists(index="articles"):
-    #     module_logger.info("Index created")
-    #     dart.handler.elastic.initialize.InitializeIndex().initialize_articles()
-    #     module_logger.info("Started adding documents")
-    #
-    # thread_retrieve_articles.start()
-    # time.sleep(60)
+    print(str(datetime.datetime.now())+"\tloading articles")
+    if es.indices.exists(index="articles") and config["append"] == "N":
+        # delete index
+        elastic_connector.clear_index('articles')
+        module_logger.info("Index removed")
+    if not es.indices.exists(index="articles"):
+        module_logger.info("Index created")
+        dart.handler.elastic.initialize.InitializeIndex().initialize_articles()
+        module_logger.info("Started adding documents")
+    
+    thread_retrieve_articles.start()
+    time.sleep(60)
     print(str(datetime.datetime.now()) + "\tenriching articles")
     thread_enrich_articles.start()
     # thread_retrieve_articles.join()

@@ -37,6 +37,16 @@ python metrics_calculations.py
 ```
 
 
+# from scratch
+
+MacOS
+```{}
+brew tap elastic/tap
+brew install elastic/tap/elasticsearch-full
+```
+
+
+
 # Additional Material
 
 ## Jensen Shannon as an f-Divergence
