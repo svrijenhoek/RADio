@@ -34,6 +34,8 @@ def read_full_config_file():
     dictionary["articles"] = data["articles"]
     dictionary["recommendations"] = data["recommendations"]
     dictionary["output_folder"] = data["output_folder"]
+    dictionary["metadata_folder"] = data["metadata_folder"]
+    dictionary["mind_type"] = data["mind_type"]   
     return dictionary
 
 

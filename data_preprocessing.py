@@ -5,6 +5,7 @@ import time
 import threading
 
 import dart.Util
+import dart.preprocess.downloads
 import dart.preprocess.add_articles
 import dart.preprocess.generate_users
 import dart.preprocess.generate_recommendations
@@ -15,9 +16,8 @@ import dart.preprocess.identify_stories
 import dart.handler.elastic.initialize
 import dart.handler.mongo.connector
 
-
-def main():
-
+def main():    
+    
     logging.basicConfig(filename='dart.log', level=logging.INFO,
                         format='%(asctime)s - %(name)s - %(threadName)s -  %(levelname)s - %(message)s')
     module_logger = logging.getLogger('main')
@@ -26,7 +26,7 @@ def main():
     handlers = dart.models.Handlers.Handlers(elastic_connector, mongo_connector)
 
     # step 0: load config file
-    config = dart.Util.read_full_config_file()
+
     es = Elasticsearch()
 
     thread_retrieve_articles = threading.Thread(
@@ -42,6 +42,15 @@ def main():
         target=dart.preprocess.generate_users.UserSimulator(config, handlers).execute,
         args=("data/recommendations/behaviors_large.tsv",))
 
+    config = dart.Util.read_full_config_file()
+
+
+    print("downloading MIND dataset – " + config["mind_type"] + " version")
+    dart.preprocess.downloads.download_mind(config)
+    
+    print("downloading politicians metadata")
+    dart.preprocess.downloads.download_politicians(config)
+    
     # step 1: load articles
     # print(str(datetime.datetime.now())+"\tloading articles")
     # if es.indices.exists(index="articles") and config["append"] == "N":

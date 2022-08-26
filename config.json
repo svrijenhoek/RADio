@@ -16,5 +16,7 @@
   "recommendations": "data/recommendations_large_all_recs_no_cap.pickle",
   "political_file": "data/term-116.csv",
   "behavior_file": "data/recommendations/behaviors_large.tsv",
-  "output_folder": "output/"
+  "output_folder": "output/",
+    "metadata_folder": "metadata/",
+  "mind_type": "small"
 }
