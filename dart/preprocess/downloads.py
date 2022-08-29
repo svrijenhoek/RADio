@@ -9,12 +9,14 @@ from bs4 import BeautifulSoup
 import datetime
 import time
 
+
 def download_politicians(config):
     url = "https://cdn.rawgit.com/everypolitician/everypolitician-data/35c09ba19b40bfd272953719e0b22126d76c589e/data/United_States_of_America/House/term-116.csv"
 
     r = requests.get(url)  
     with open(config["metadata_folder"] + "term-116.csv", 'wb') as f:
         f.write(r.content)
+
 
 def download_mind(config):
 
@@ -37,7 +39,7 @@ def request_article(url):
         return mystr
     except error.HTTPError:
         time.sleep(5)
-        return self.request(url)
+        return request(url)
 
 def read(data):
     soup = BeautifulSoup(data, 'lxml')
@@ -84,7 +86,9 @@ def download_article_text(config):
                 print("article " + str(ID) + " not found")
             # if date and text:
             #     date = datetime.datetime.strptime(date.replace("/", "-").strip(), '%m-%d-%Y')
-            print(i)
+            if i % 1000 == 0:
+                print("{}/{}".format(i, n))
+                article_text.to_csv("data/article_text.csv", index=False)
             article_text.loc[i] = [ID, date, text]
     t2 = time.time()
     print(t2-t1)
