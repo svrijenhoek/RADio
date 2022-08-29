@@ -8,7 +8,11 @@ article_text = pd.read_csv("data/article_text.csv")
 
 nlp = en_core_web_sm.load(disable=['parser'])
 
-enrich = list(nlp.pipe(article_text.text.head()))
+enrich = list(nlp.pipe(article_text.text))
+
+l =  [len(t) for t in article_text.text]
+
+article_text.text.isnumeric()
 
 article_text["entities"] = None
 

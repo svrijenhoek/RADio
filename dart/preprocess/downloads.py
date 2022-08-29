@@ -3,6 +3,7 @@ from recommenders.models.newsrec.newsrec_utils import get_mind_data_set
 from recommenders.models.deeprec.deeprec_utils import download_deeprec_resources 
 import os
 import pandas as pd
+import numpy as np
 from urllib import request, error
 from bs4 import BeautifulSoup
 import datetime
@@ -22,8 +23,6 @@ def download_mind(config):
     valid_news_file = os.path.join(data_path, r'news.tsv')
     
     mind_url, mind_train_dataset, mind_dev_dataset, mind_utils = get_mind_data_set(config["mind_type"])
-
-    download_deeprec_resources(mind_url, data_path, mind_dev_dataset)
 
     if not os.path.exists(valid_news_file):
         download_deeprec_resources(mind_url, data_path, mind_dev_dataset)
@@ -57,31 +56,40 @@ def read(data):
 
         
 def download_article_text(config):
+    # 3-4h for the small MIND dataset
 
     data_path = "data/"
     news = pd.read_csv("data/news.tsv", sep = "\t", header = None)
     n = news.shape[0]
     if os.path.exists("data/article_text.csv"):
-        article_text = pd.read_csv("data/article_text.csv")
+        article_text = pd.read_csv("data/article_text.csv", )
     else:
         article_text = pd.DataFrame({"ID": ["..."] * n,
                                      "date": ["..."] * n,
                                      "text": ["..."] * n})
     
     t1 = time.time()
+
+    last = np.where(article_text.ID == "...")[0][0]
+    
     for i, news_entry in news.iterrows():
-        url = news_entry[5]
-        if url == "...":
-            r = request_article(url)
-            date, text = read(r)
+        if i >= last:
+            url = news_entry[5]
+            ID = news_entry[0]
+            try:
+                r = request_article(url)
+                date, text = read(r)
+            except:
+                date, text = ("–", "not found")
+                print("article " + str(ID) + " not found")
             # if date and text:
             #     date = datetime.datetime.strptime(date.replace("/", "-").strip(), '%m-%d-%Y')
             print(i)
-            article_text.loc[i] = [news_entry[0], date, text]
+            article_text.loc[i] = [ID, date, text]
     t2 = time.time()
     print(t2-t1)
 
-    article_text.to_csv("data/article_text.csv")
+    article_text.to_csv("data/article_text.csv", index=False)
 
 
 def execute(config):
