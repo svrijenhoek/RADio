@@ -1,6 +1,4 @@
 from textblob import TextBlob
-from textblob_de import TextBlobDE
-from textblob_nl import PatternTagger, PatternAnalyzer
 
 
 class Sentiment:
@@ -18,12 +16,7 @@ class Sentiment:
         # Analyze the polarity of each text in the appropriate language.
         # Uses Textblob mainly because of its ease of implementation in multiple languages.
         # Dutch Textblob uses the same engine as the English one, but with special Pattern tagger and analyzer.
-        if self.language == 'dutch':
-            blob = TextBlob(text, pos_tagger=PatternTagger(), analyzer=PatternAnalyzer())
-        elif self.language == 'english':
-            blob = TextBlob(text)
-        elif self.language == 'german':
-            blob = TextBlobDE(text)
+        blob = TextBlob(text)
         return blob
 
     def get_sentiment_score(self, text):
