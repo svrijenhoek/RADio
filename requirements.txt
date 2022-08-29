@@ -2,7 +2,6 @@ numpy~=1.20
 pandas~=1.2
 elasticsearch~=7.12
 requests~=2.25
-whoswho~=0.2
 nltk~=3.6
 gensim~=4.0
 spacy
@@ -16,8 +15,6 @@ community~=1.0.0b1
 scipy~=1.6.3
 networkx~=2.5
 textblob~=0.15.3
-textblob_de~=0.4.3
-textblob_nl~=0.0.1
 pymongo
 bs4
 lxml
