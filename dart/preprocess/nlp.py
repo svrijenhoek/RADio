@@ -20,7 +20,7 @@ def process(df):
     chunk_size = int(to_process.shape[0] / split)
     if chunk_size > 0:
         for start in range(0, to_process.shape[0], chunk_size):
-            print("{}/{}".format(start / chunk_size, split))
+            print("\t{}/{}".format(start / chunk_size, split))
             df_subset = to_process.iloc[start:start + chunk_size]
 
             enrich = list(nlp.pipe(df_subset.text))

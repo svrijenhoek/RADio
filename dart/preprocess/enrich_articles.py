@@ -37,22 +37,23 @@ class Enricher:
 
     def enrich(self, df):
         df['entities_base'] = df['entities']
-        df['entities'] = df['entities'].apply(lambda x: self.enrich_document(x))
+        if 'enriched_entities' not in df:
+            df["enriched_entities"] = None
 
-        # a = list(df.to_dict(orient='index').items())
-        # articles = [Article(i) for i in a]
-        # for article in articles:
-        #     self.annotate_document(article)
+        to_process = df[df.enriched_entities.isnull()]
+        count = 1
+        split = 1000
+        length = len(to_process)
+        for index, row in to_process.iterrows():
+            enriched_entities = self.enrich_document(row['entities'])
+            df.at[index, 'enriched_entities'] = enriched_entities
 
-        # try:
-        #     articles = self.handlers.articles.get_not_calculated("annotated")
-        #     while len(articles) > 0:
-        #         for article in articles:
-        #             self.annotate_document(article)
-        #         articles = self.handlers.articles.get_not_calculated("annotated")
-        # except ConnectionError:  # in case an error occurs when wikidata does not respond, save recently retrieved items
-        #     print("Connection error!")
-        #     sys.exit()
+            if count % length/split == 0:
+                print("\t{}%".format(count/length*100))
+                self.enricher.save()
+                df.to_json("data/annotated.json")
+            count += 1
+        return df
 
 
 

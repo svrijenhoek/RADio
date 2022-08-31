@@ -80,18 +80,17 @@ def download_article_text(config):
             if i >= last:
                 url = news_entry[5]
                 ID = news_entry[0]
+                category = news_entry[1]
                 try:
                     r = request_article(url)
                     date, text = read(r)
                 except:
                     date, text = ("–", "not found")
                     print("article " + str(ID) + " not found")
-                # if date and text:
-                #     date = datetime.datetime.strptime(date.replace("/", "-").strip(), '%m-%d-%Y')
                 if i % 1000 == 0:
                     print("{}/{}".format(i, n))
                     article_text.to_csv("data/article_text.csv", index=False)
-                article_text.loc[i] = [ID, date, text]
+                article_text.loc[i] = [ID, date, category, url, text]
         t2 = time.time()
         print(t2-t1)
 
@@ -99,9 +98,9 @@ def download_article_text(config):
 
 
 def execute(config):
-    print("downloading MIND dataset – " + config["mind_type"] + " version")
+    print("\tdownloading MIND dataset – " + config["mind_type"] + " version")
     download_mind(config)
-    print("scraping MIND article text – " + config["mind_type"] + " version")    
+    print("\tscraping MIND article text – " + config["mind_type"] + " version")
     download_article_text(config)    
-    print("downloading politicians metadata")
+    print("\tdownloading politicians metadata")
     download_politicians(config)
