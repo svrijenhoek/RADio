@@ -7,8 +7,8 @@ from collections import defaultdict
 
 class EntityEnricher:
 
-    def __init__(self, metrics, language, politics, handlers):
-        self.handlers = handlers
+    def __init__(self, metrics, language, politics):
+        # self.handlers = handlers
         self.metrics = metrics
         self.language = language
         self.wikidata = dart.handler.other.wikidata.WikidataHandler(self.language)

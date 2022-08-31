@@ -1,5 +1,5 @@
 import networkx as nx
-import community
+import community.community_louvain as community_louvain
 import pandas as pd
 import itertools
 from difflib import SequenceMatcher
@@ -44,7 +44,7 @@ class Clustering:
             df = pd.DataFrame(distances)
             thr = df[df.metric > self.threshold]
             G = nx.from_pandas_edgelist(thr, self.a, self.b, edge_attr='metric')
-            partition = community.best_partition(G)
+            partition = community_louvain.best_partition(G)
             return partition
         else:
             return {}

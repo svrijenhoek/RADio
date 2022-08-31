@@ -7,24 +7,21 @@ import dart.handler.NLP.cluster_entities
 import dart.handler.other.wikidata
 import dart.handler.NLP.sentiment
 import dart.Util
+from dart.models.Article import Article
 
 import sys
 
 
 class Enricher:
 
-    def __init__(self, handlers, config):
-        self.handlers = handlers
+    def __init__(self, config):
         self.config = config
         self.metrics = config['metrics']
         self.language = config['language']
         self.annotator = dart.handler.NLP.annotator.Annotator(self.language)
-        self.textstat = dart.handler.other.textstat.TextStatHandler(self.language)
         self.enricher = dart.handler.NLP.enrich_entities.EntityEnricher(self.metrics, self.language,
-                                                                        pd.read_csv(config['politics_file']),
-                                                                                    self.handlers)
+                                                                        pd.read_csv('metadata\\term-116.csv'))
         self.clusterer = dart.handler.NLP.cluster_entities.Clustering(0.9, 'a', 'b', 'metric')
-        self.sentiment = dart.handler.NLP.sentiment.Sentiment(self.language)
 
     def annotate_entities(self, entities):
         annotated_entities = []
@@ -33,35 +30,29 @@ class Enricher:
             annotated_entities.append(entity)
         return annotated_entities
 
-    def annotate_document(self, article):
-        doc = {'id': article.id}
-        if not article.entities:
-            _, entities, tags = self.annotator.annotate(article.text)
-        else:
-            entities = article.entities
+    def enrich_document(self, entities):
         aggregated_entities = self.clusterer.execute(entities)
-
         enriched_entities = self.annotate_entities(aggregated_entities)
+        return enriched_entities
 
-        doc['entities'] = enriched_entities
-        doc['entities_base'] = entities
-        doc['sentiment'] = self.sentiment.get_sentiment_score(article.text)
+    def enrich(self, df):
+        df['entities_base'] = df['entities']
+        df['entities'] = df['entities'].apply(lambda x: self.enrich_document(x))
 
-        doc['complexity'] = self.textstat.flesch_kincaid_score(article.text)
+        # a = list(df.to_dict(orient='index').items())
+        # articles = [Article(i) for i in a]
+        # for article in articles:
+        #     self.annotate_document(article)
 
-        doc['annotated'] = 'Y'
-        self.handlers.articles.update_doc(article.id, doc)
-
-    def enrich(self):
-        try:
-            articles = self.handlers.articles.get_not_calculated("annotated")
-            while len(articles) > 0:
-                for article in articles:
-                    self.annotate_document(article)
-                articles = self.handlers.articles.get_not_calculated("annotated")
-        except ConnectionError:  # in case an error occurs when wikidata does not respond, save recently retrieved items
-            print("Connection error!")
-            sys.exit()
+        # try:
+        #     articles = self.handlers.articles.get_not_calculated("annotated")
+        #     while len(articles) > 0:
+        #         for article in articles:
+        #             self.annotate_document(article)
+        #         articles = self.handlers.articles.get_not_calculated("annotated")
+        # except ConnectionError:  # in case an error occurs when wikidata does not respond, save recently retrieved items
+        #     print("Connection error!")
+        #     sys.exit()
 
 
 

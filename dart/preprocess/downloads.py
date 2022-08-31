@@ -39,7 +39,7 @@ def request_article(url):
         return mystr
     except error.HTTPError:
         time.sleep(5)
-        return request(url)
+        return request_article(url)
 
 def read(data):
     soup = BeautifulSoup(data, 'lxml')
@@ -72,28 +72,30 @@ def download_article_text(config):
     
     t1 = time.time()
 
-    last = np.where(article_text.ID == "...")[0][0]
-    
-    for i, news_entry in news.iterrows():
-        if i >= last:
-            url = news_entry[5]
-            ID = news_entry[0]
-            try:
-                r = request_article(url)
-                date, text = read(r)
-            except:
-                date, text = ("–", "not found")
-                print("article " + str(ID) + " not found")
-            # if date and text:
-            #     date = datetime.datetime.strptime(date.replace("/", "-").strip(), '%m-%d-%Y')
-            if i % 1000 == 0:
-                print("{}/{}".format(i, n))
-                article_text.to_csv("data/article_text.csv", index=False)
-            article_text.loc[i] = [ID, date, text]
-    t2 = time.time()
-    print(t2-t1)
+    not_processed = np.where(article_text.ID == "...")
+    if len(not_processed[0]) > 0:
+        last = not_processed[0][0]
 
-    article_text.to_csv("data/article_text.csv", index=False)
+        for i, news_entry in news.iterrows():
+            if i >= last:
+                url = news_entry[5]
+                ID = news_entry[0]
+                try:
+                    r = request_article(url)
+                    date, text = read(r)
+                except:
+                    date, text = ("–", "not found")
+                    print("article " + str(ID) + " not found")
+                # if date and text:
+                #     date = datetime.datetime.strptime(date.replace("/", "-").strip(), '%m-%d-%Y')
+                if i % 1000 == 0:
+                    print("{}/{}".format(i, n))
+                    article_text.to_csv("data/article_text.csv", index=False)
+                article_text.loc[i] = [ID, date, text]
+        t2 = time.time()
+        print(t2-t1)
+
+        article_text.to_csv("data/article_text.csv", index=False)
 
 
 def execute(config):

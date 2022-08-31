@@ -8,46 +8,33 @@ import pandas as pd
 import dart.Util
 import dart.preprocess.downloads
 import dart.preprocess.add_articles
+import dart.preprocess.nlp
 import dart.metrics.start_calculations
 import dart.models.Handlers
 import dart.preprocess.enrich_articles
 import dart.preprocess.identify_stories
 import dart.handler.elastic.initialize
 import dart.handler.mongo.connector
+import dart.handler.articles
+from dart.models.Article import Article
 
-def main():    
-    
-    # logging.basicConfig(filename='dart.log', level=logging.INFO,
-    #                     format='%(asctime)s - %(name)s - %(threadName)s -  %(levelname)s - %(message)s')
-    # module_logger = logging.getLogger('main')
-    # elastic_connector = dart.handler.elastic.connector.ElasticsearchConnector()
-    # mongo_connector = dart.handler.mongo.connector.MongoConnector()
-    # handlers = dart.models.Handlers.Handlers(elastic_connector, mongo_connector)
 
-    # es = Elasticsearch()
-
-    # thread_retrieve_articles = threading.Thread(
-    #     target=dart.preprocess.add_articles.AddArticles(config, handlers).execute,
-    #     args=("data/news.tsv",))
-    # thread_enrich_articles = threading.Thread(
-    #     target=dart.preprocess.enrich_articles.Enricher(handlers, config).enrich,
-    #     args=())
-    # thread_cluster_stories = threading.Thread(
-    #    target=dart.preprocess.identify_stories.StoryIdentifier(handlers, config).execute,
-    #    args=())
-    # thread_add_users = threading.Thread(
-    #     target=dart.preprocess.generate_users.UserSimulator(config, handlers).execute,
-    #     args=("data/recommendations/behaviors.tsv",))
-
-    # news = pd.read_csv("data/news.tsv", sep = "\t", header = None)
-    # news.iloc[0, :].to_dict()
+def main():
     
     ## step 0: load config file
     
     config = dart.Util.read_full_config_file()
 
-    # downloads
+    # downloads external data sources
     dart.preprocess.downloads.execute(config)
+
+    # preprocess data
+    df = dart.preprocess.nlp.execute()
+
+    # enrich articles
+    dart.preprocess.enrich_articles.Enricher(config).enrich(df)
+
+    # identify stories
 
     # step 1: load articles
     # print(str(datetime.datetime.now())+"\tloading articles")
