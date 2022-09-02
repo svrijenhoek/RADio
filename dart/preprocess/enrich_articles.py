@@ -1,15 +1,9 @@
 import pandas as pd
 
-import dart.handler.NLP.annotator
-import dart.handler.other.textstat
 import dart.handler.NLP.enrich_entities
 import dart.handler.NLP.cluster_entities
 import dart.handler.other.wikidata
-import dart.handler.NLP.sentiment
 import dart.Util
-from dart.models.Article import Article
-
-import sys
 
 
 class Enricher:
@@ -18,7 +12,6 @@ class Enricher:
         self.config = config
         self.metrics = config['metrics']
         self.language = config['language']
-        self.annotator = dart.handler.NLP.annotator.Annotator(self.language)
         self.enricher = dart.handler.NLP.enrich_entities.EntityEnricher(self.metrics, self.language,
                                                                         pd.read_csv('metadata\\term-116.csv'))
         self.clusterer = dart.handler.NLP.cluster_entities.Clustering(0.9, 'a', 'b', 'metric')
@@ -42,14 +35,14 @@ class Enricher:
 
         to_process = df[df.enriched_entities.isnull()]
         count = 1
-        split = 1000
+        split = 100
         length = len(to_process)
         for index, row in to_process.iterrows():
             enriched_entities = self.enrich_document(row['entities'])
             df.at[index, 'enriched_entities'] = enriched_entities
 
-            if count % length/split == 0:
-                print("\t{}%".format(count/length*100))
+            if count % split == 0:
+                print("\t{}, {:.2f}%".format(count, count/length*100))
                 self.enricher.save()
                 df.to_json("data/annotated.json")
             count += 1

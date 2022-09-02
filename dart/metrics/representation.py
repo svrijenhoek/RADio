@@ -15,42 +15,12 @@ class Representation:
     def __init__(self, config):
         self.config = config
         self.party_data = {}
-        # to do: add support for English parties. Also disitnguish between UK/US, fix by adding a country parameter
-        # beside the language parameter?
 
-        if self.config["language"] == "german":
-            self.political_parties = np.array([
-                ["CDU", "Christlich Demokratische Union Deutschlands"],
-                ["SPD", "Sozialdemokratische Partei Deutschlands"],
-                ["AfD", "Alternative für Deutschland"],
-                ["FDP", "Freie Demokratische Partei"],
-                ["LINKE", "Die Linke"],
-                ["GRÜNE", "Bündnis 90/Die Grünen"],
-                ["CSU", "Christlich-Soziale Union in Bayern"]
-            ])
-        elif self.config["language"] == "dutch":
-            self.political_parties = np.array([
-                ["CDA", "Christen-Democratisch Appèl"],
-                ["CU", "ChristenUnie"],
-                ["D66", "Democraten 66"],
-                ["FvD", "Forum voor Democratie"],
-                ["GL", "GroenLinks"],
-                ["PvdA", "Partij van de Arbeid"],
-                ["PvdD", "Partij voor de Dieren"],
-                ["PVV", "Partij voor de Vrijheid"],
-                ["SGP", "Staatkundig Gereformeerde Partij"],
-                ["SP", "Socialistische Partij"],
-                ["VVD", "Volkspartij voor Vrijheid en Democratie"],
-                ["50Plus", "50Plus"],
-                ["DENK", "Denk"],
-            ])
-        # should think of something for "Independent",
-        elif self.config["language"] == "english":
-            self.political_parties = np.array([
-                ["Democrat", "Democratic Party"],
-                ["Republican", "Republican Party"],
-                #["", "Independent"],
-            ])
+        self.political_parties = np.array([
+            ["Democrat", "Democratic Party"],
+            ["Republican", "Republican Party"],
+            #["", "Independent"],
+        ])
 
     @staticmethod
     def in_entities(entities, party):
