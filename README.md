@@ -14,9 +14,9 @@ RADio
         without
         cutoff](#jensen-shannon-divergence-for-all-recommender-strategies-without-cutoff)
 
-This repository contains the supporting material for the paper 📻 *RADio
+This repository contains the supporting material for the paper 📻 [*RADio
 – Rank-Aware Divergence metrIcs to measure nOrmative diversity in news
-recommendations*.
+recommendations*](https://dl.acm.org/doi/abs/10.1145/3523227.3546780).
 
 # 1 Computing RADio with rank-aware JS-divergence
 
