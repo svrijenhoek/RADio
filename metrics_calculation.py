@@ -2,8 +2,6 @@ import datetime
 
 import dart.Util
 import dart.metrics.start_calculations
-import dart.models.Handlers
-import dart.handler.mongo.connector
 
 
 def main():
