@@ -20,38 +20,18 @@ mind_type = config['mind_type']
 
 
 def process():
-    lstur = []
-    file = open(os.path.join(ROOT_DIR, Path('data/recommendations/lstur_pred_'+mind_type+'.json')))
-    for line in file:
-        json_line = json.loads(line)
-        lstur.append(json_line)
-    #
-    naml = []
-    file = open(os.path.join(ROOT_DIR, Path('data/recommendations/naml_pred_'+mind_type+'.json')))
-    for line in file:
-        json_line = json.loads(line)
-        naml.append(json_line)
-    #
-    npa = []
-    file = open(os.path.join(ROOT_DIR, Path('data/recommendations/npa_pred_'+mind_type+'.json')))
-    for line in file:
-        json_line = json.loads(line)
-        npa.append(json_line)
-    #
-    nrms = []
-    file = open(os.path.join(ROOT_DIR, Path('data/recommendations/nrms_pred_'+mind_type+'.json')))
-    for line in file:
-        json_line = json.loads(line)
-        nrms.append(json_line)
-    #
-    pop = []
-    file = open(os.path.join(ROOT_DIR, Path('data/recommendations/pop_pred_'+mind_type+'.json')))
-    for line in file:
-        json_line = json.loads(line)
-        pop.append(json_line)
+    lstur = dart.Util.read_multiline_json('data/recommendations/lstur_pred_'+mind_type+'.json')
+
+    naml = dart.Util.read_multiline_json('data/recommendations/naml_pred_'+mind_type+'.json')
+
+    npa = dart.Util.read_multiline_json('data/recommendations/npa_pred_'+mind_type+'.json')
+
+    nrms = dart.Util.read_multiline_json('data/recommendations/nrms_pred_'+mind_type+'.json')
+
+    pop = dart.Util.read_multiline_json('data/recommendations/pop_pred_'+mind_type+'.json')
     sorted_pop = sorted(pop, key=lambda d: d['impr_index'])
 
-    behavior_file = open(os.path.join(ROOT_DIR, Path('data/behaviors.tsv')))
+    behavior_file = open('data/behaviors.tsv')
     behaviors_csv = csv.reader(behavior_file, delimiter="\t")
     behaviors = []
     for line in behaviors_csv:
@@ -89,6 +69,7 @@ def process():
                      'naml': naml_list, 'npa': npa_list, 'nrms': nrms_list, 'pop': pop_list, 'random': random_list})
     df = pd.DataFrame(data)
     df = df.set_index('impr_index')
-    file = os.path.join(ROOT_DIR, Path(config['recommendations']))
-    with open(file, 'wb') as f:
-        pickle.dump(df, f)
+    dart.Util.create_pickle(df, config['recommendations'])
+    # file = os.path.join(BASE_DIR, Path(config['recommendations']))
+    # with open(file, 'wb') as f:
+    #     pickle.dump(df, f)

@@ -25,7 +25,6 @@ def main():
     df = dart.preprocess.enrich_articles.Enricher(config).enrich(df)
 
     print(str(datetime.datetime.now()) + "\tStep 4 of 5: clustering stories")
-    # identify stories
     df = dart.preprocess.identify_stories.StoryIdentifier(config).execute(df)
 
     dart.Util.create_pickle(df, config['articles'])

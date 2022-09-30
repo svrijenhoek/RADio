@@ -47,6 +47,15 @@ def get_random_number(mean, sdev):
     return int(np.random.normal(mean, sdev))
 
 
+def read_multiline_json(f):
+    lines = []
+    with open(f) as file:
+        for line in file:
+            json_line = json.loads(line)
+            lines.append(json_line)
+    return lines
+
+
 def write_to_json(file, s):
     with open(file, 'w') as outfile:
         json.dump(s, outfile, indent=4, separators=(',', ': '), sort_keys=True)
