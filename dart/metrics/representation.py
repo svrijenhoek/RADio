@@ -59,7 +59,10 @@ class Representation:
             rank += 1
             d = defaultdict(int)
             # for each party specified in the configuration file
-            persons = filter(lambda x: x['label'] == 'PERSON', entities)
+            try:
+                persons = filter(lambda x: x['label'] == 'PERSON', entities)
+            except TypeError:
+                persons = []
             for person in persons:
                 if 'party' in person and person['party']:
                     d[person['party'][0]] += len(person['spans'])

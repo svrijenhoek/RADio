@@ -1,4 +1,4 @@
-import dart.metrics.affect
+import dart.metrics.activation
 import dart.metrics.calibration
 import dart.metrics.fragmentation
 import dart.metrics.representation
@@ -30,7 +30,7 @@ class MetricsCalculator:
         self.config = config
         self.Calibration = dart.metrics.calibration.Calibration(self.config)
         self.Fragmentation = dart.metrics.fragmentation.Fragmentation()
-        self.Affect = dart.metrics.affect.Affect(self.config)
+        self.Affect = dart.metrics.activation.Affect(self.config)
         self.Representation = dart.metrics.representation.Representation(self.config)
         self.AlternativeVoices = dart.metrics.alternative_voices.AlternativeVoices()
 
@@ -185,8 +185,8 @@ class MetricsCalculator:
 
     @staticmethod
     def write_to_file(df, output_folder):
-        df.to_csv(Path(output_folder + 'full.csv'), encoding='utf-8')
-        dart.Util.create_pickle(df, output_folder + 'output_long.pickle')
+        df.to_csv(Path(output_folder + 'output.csv'), encoding='utf-8')
+        dart.Util.create_pickle(df, output_folder + 'output.pickle')
 
 
 
