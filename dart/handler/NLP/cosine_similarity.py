@@ -1,4 +1,3 @@
-from dart.handler.elastic.connector import ElasticsearchConnector
 import math
 import itertools
 import numpy as np
@@ -6,15 +5,15 @@ import collections, functools, operator
 from stop_words import get_stop_words
 from statistics import StatisticsError
 
+from sklearn.feature_extraction.text import TfidfVectorizer
+
 
 # basically copied from https://www.datasciencecentral.com/profiles/blogs/
 # document-similarity-analysis-using-elasticsearch-and-python
 class CosineSimilarity:
 
-    def __init__(self, language):
-        self.connector = ElasticsearchConnector()
-        self.stop_words = get_stop_words(language)
-        self.term_vectors = {}
+    def __init__(self):
+        self.v = TfidfVectorizer(stop_words='english')
 
     def create_dictionary(self, doc):
         output = {}
@@ -87,26 +86,6 @@ class CosineSimilarity:
                     self.term_vectors[doc] = vector
         return output
 
-    # def calculate_cosine_similarity(self, list1, list2):
-    #     try:
-    #         vectors1 = self.prepare_vectors(list1)
-    #         vectors2 = self.prepare_vectors(list2)
-    #
-    #         if vectors1 and vectors2:
-    #             output = []
-    #             for _, x in enumerate(vectors1):
-    #                 for _, y in enumerate(vectors2):
-    #                     cosine = self.cosine(x, y)
-    #                     output.append(cosine)
-    #             return median(output)
-    #         else:
-    #             return 0
-    #     except (AttributeError, TypeError):
-    #         print("Error!")
-    #         print(list1)
-    #         print(list2)
-    #     except StatisticsError:
-    #         return 0
 
     def calculate_all(self, doc_list):
         try:
@@ -119,21 +98,3 @@ class CosineSimilarity:
         except StatisticsError:
             return 0
 
-    # def calculate_all_distances(self, doc_list):
-    #     dict_list = self.prepare_vectors(doc_list)
-    #     output = []
-    #     for ix, x in enumerate(dict_list):
-    #         for iy, y in enumerate(dict_list):
-    #             if ix > iy:
-    #                 cosine = self.cosine(x, y)
-    #                 output.append({'x': doc_list[ix], 'y': doc_list[iy], 'cosine': cosine})
-    #     return output
-
-    # def calculate_cosine_experiment(self, list1, list2):
-    #     vector1 = self.prepare_vectors(list1)
-    #     merged1 = dict(functools.reduce(operator.add,
-    #                                     map(collections.Counter, vector1)))
-    #     vector2 = self.prepare_vectors(list2)
-    #     merged2 = dict(functools.reduce(operator.add,
-    #                                     map(collections.Counter, vector2)))
-    #     return self.cosine(merged1, merged2)

@@ -1,7 +1,3 @@
-import dart.handler.elastic.connector
-import dart.models.Handlers
-import dart.handler.NLP.cosine_similarity
-import dart.Util
 from datetime import datetime, timedelta
 import pandas as pd
 import networkx as nx

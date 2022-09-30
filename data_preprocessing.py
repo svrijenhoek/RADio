@@ -5,7 +5,6 @@ import dart.preprocess.nlp
 import dart.preprocess.enrich_articles
 import dart.preprocess.identify_stories
 import dart.preprocess.recommendations
-import dart.handler.articles
 
 
 def main():

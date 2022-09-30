@@ -84,7 +84,10 @@ class AlternativeVoices:
                 if 'givenname' in person:
                     article_majority += len(person['spans'])
                 else:
-                    article_minority += len(person['spans'])
+                    try:
+                        article_minority += len(person['spans'])
+                    except KeyError:
+                        print("huh?")
             self.mainstream_scores[indx] = {'majority': article_majority, 'minority': article_minority}
         return article_majority, article_minority
 
