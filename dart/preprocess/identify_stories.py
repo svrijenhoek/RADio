@@ -5,9 +5,12 @@ import dart.Util
 from datetime import datetime, timedelta
 import pandas as pd
 import networkx as nx
-import community
+import community.community_louvain as community_louvain
 from collections import defaultdict
 from statistics import mode, StatisticsError
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+import math
 
 import itertools
 from difflib import SequenceMatcher
@@ -19,44 +22,74 @@ class StoryIdentifier:
     Nicholls et al.
     """
 
-    def __init__(self, handlers, config):
-        self.handlers = handlers
+    def __init__(self, config):
         self.config = config
-        self.cos = dart.handler.NLP.cosine_similarity.CosineSimilarity(self.config['language'])
         self.threshold = 0.50
         self.categories = ["news", "sports", "finance", "weather", "travel", "video", "foodanddrink", "lifestyle", "autos",
                            "health", "tv", "music", "movies", "entertainment"]
+        self.v = TfidfVectorizer(stop_words='english')
 
-    def execute(self):
-        # first_date, last_date = self.handlers.articles.get_first_and_last_dates()
-        first_date = datetime.strptime("2019-10-01", '%Y-%m-%d')
-        last_date = datetime.strptime("2019-12-07", '%Y-%m-%d')
-        # last_date = datetime.strptime(self.config["recommendation_dates"][-1], '%Y-%m-%d')
+    def vectorize(self, text):
+        try:
+            split = text.split('\n')
+            return self.v.fit_transform(split)
+        except ValueError:
+            return []
+        # self.v.fit_transform(x) if len(x[0]) > 1 or len(x) > 1 else []
 
-        cosines = self.get_cosines_in_timerange(first_date, last_date)
+    def execute(self, df):
+        first_date = df.publication_date.min() # datetime.strptime("2019-10-01", '%Y-%m-%d')
+        last_date = df.publication_date.max() # datetime.strptime("2019-12-07", '%Y-%m-%d')
+
+        cosines = self.get_cosines_in_timerange(df, first_date, last_date)
 
         stories = self.identify(cosines)
-        self.add_stories(stories)
+        df['story'] = 0
+        for k, v in stories.items():
+            df.at[k, 'story'] = v
+        return df
 
-    def get_cosines_in_timerange(self, first_date, last_date):
+    def get_cosines_in_timerange(self, df, first_date, last_date):
         cosines = []
         delta = last_date - first_date
         for i in range(delta.days+1):
             today = first_date + timedelta(days=i)
-            print(today)
             yesterday = today - timedelta(days=1)
             past_three_days = today - timedelta(days=3)
-            documents_3_days = self.handlers.articles.get_all_in_timerange(past_three_days, today)
-            documents_1_day = self.handlers.articles.get_all_in_timerange(yesterday, today)
+            documents_3_days = df.loc[(df['publication_date'] >= past_three_days) & (df['publication_date'] <= today)] # self.handlers.articles.get_all_in_timerange(past_three_days, today)
+            documents_1_day = df.loc[(df['publication_date'] >= yesterday) & (df['publication_date'] <= today)] # self.handlers.articles.get_all_in_timerange(yesterday, today)
             for category in self.categories:
-                subset_3 = [document for document in documents_3_days if document.source['category'] == category]
-                subset_1 = [document for document in documents_1_day if document.source['category'] == category]
-                for x in subset_1:
-                        for y in subset_3:
-                            cosine = self.cos.calculate_cosine_similarity(x.id, y.id)
-                            if cosine > self.threshold:
-                                cosines.append({'x': x.id, 'y': y.id, 'cosine': cosine})
+                subset_3 = documents_3_days.loc[documents_3_days['category'] == category]
+                subset_1 = documents_1_day.loc[documents_1_day['category'] == category]
+
+                if not subset_1.empty and not subset_3.empty:
+
+                    subset_1_matrix = self.v.fit_transform(subset_1['text'].tolist())
+                    subset_3_matrix = self.v.fit_transform(subset_1['text'].tolist())
+
+                    cosine_similarities = cosine_similarity(subset_1_matrix, subset_3_matrix)
+
+                    for x, row in enumerate(cosine_similarities):
+                        for y, cosine in enumerate(row):
+                            if self.threshold <= cosine < 1:
+                                x_id = list(subset_1.index.values)[x]
+                                y_id = list(subset_3.index.values)[y]
+                                cosines.append({'x': x_id, 'y': y_id, 'cosine': cosine})
         return cosines
+
+    @staticmethod
+    def get_cosine(vec1, vec2):
+        intersection = set(vec1.keys()) & set(vec2.keys())
+        numerator = sum([vec1[x] * vec2[x] for x in intersection])
+
+        sum1 = sum([vec1[x] ** 2 for x in list(vec1.keys())])
+        sum2 = sum([vec2[x] ** 2 for x in list(vec2.keys())])
+        denominator = math.sqrt(sum1) * math.sqrt(sum2)
+
+        if not denominator:
+            return 0.0
+        else:
+            return float(numerator) / denominator
 
     @staticmethod
     def identify(cosines):
@@ -69,7 +102,7 @@ class StoryIdentifier:
         # create graph
         G = nx.from_pandas_edgelist(df, 'x', 'y', edge_attr='cosine')
         # create partitions, or stories
-        partition = community.best_partition(G)
+        partition = community_louvain.best_partition(G)
         return partition
             # else:
             #    return {}

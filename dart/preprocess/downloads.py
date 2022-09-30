@@ -37,9 +37,10 @@ def request_article(url):
         mystr = mybytes.decode("utf8")
         fp.close()
         return mystr
-    except error.HTTPError:
+    except (error.HTTPError, ValueError, error.URLError):
         time.sleep(5)
-        return request_article(url)
+        return # request_article(url)
+
 
 def read(data):
     soup = BeautifulSoup(data, 'lxml')
@@ -68,6 +69,8 @@ def download_article_text(config):
     else:
         article_text = pd.DataFrame({"ID": ["..."] * n,
                                      "date": ["..."] * n,
+                                     "category": ["..."] * n,
+                                     "url": ["..."] * n,
                                      "text": ["..."] * n})
     
     t1 = time.time()
@@ -75,20 +78,19 @@ def download_article_text(config):
     not_processed = np.where(article_text.ID == "...")
     if len(not_processed[0]) > 0:
         last = not_processed[0][0]
-
         for i, news_entry in news.iterrows():
             if i >= last:
                 url = news_entry[5]
                 ID = news_entry[0]
                 category = news_entry[1]
-                try:
-                    r = request_article(url)
+                r = request_article(url)
+                if r:
                     date, text = read(r)
-                except:
+                else:
                     date, text = ("–", "not found")
-                    print("article " + str(ID) + " not found")
-                if i % 1000 == 0:
-                    print("{}/{}".format(i, n))
+                    print("\tarticle " + str(ID) + " not found")
+                if i % 100 == 0:
+                    print("\t{}/{}".format(i, n))
                     article_text.to_csv("data/article_text.csv", index=False)
                 article_text.loc[i] = [ID, date, category, url, text]
         t2 = time.time()
