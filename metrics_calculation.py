@@ -10,7 +10,6 @@ def main():
     # step 0: load config file
     config = dart.Util.read_full_config_file()
     articles = dart.Util.read_pickle(config['articles'])
-    articles = articles.set_index("newsid")
     recommendations = dart.Util.read_pickle(config['recommendations'])
     behavior_file = dart.Util.read_behavior_file(config['behavior_file'])
 
