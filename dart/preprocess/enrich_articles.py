@@ -29,7 +29,6 @@ class Enricher:
         return enriched_entities
 
     def enrich(self, df):
-        df['entities_base'] = df['entities']
         if 'enriched_entities' not in df:
             df["enriched_entities"] = None
 
@@ -38,8 +37,8 @@ class Enricher:
         split = 100
         length = len(to_process)
         for index, row in to_process.iterrows():
-            enriched_entities = self.enrich_document(row['entities'])
-            df.at[index, 'enriched_entities'] = enriched_entities
+            enriched_entities = self.enrich_document(row['entities_base'])
+            df.at[index, 'entities'] = enriched_entities
 
             if count % split == 0:
                 print("\t{}, {:.2f}%".format(count, count/length*100))

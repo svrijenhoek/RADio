@@ -33,7 +33,7 @@ def process(df):
                     'end_char': e.end_char,
                     'label': e.label_
                 } for e in doc.ents]
-                df.at[index, "entities"] = entities
+                df.at[index, "entities_base"] = entities
 
                 blob = TextBlob(doc.text)
                 df.at[index, "sentiment"] = blob.polarity
