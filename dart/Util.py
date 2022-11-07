@@ -3,7 +3,7 @@ import csv
 import numpy as np
 import random
 import string
-import pandas
+import pandas as pd
 import os
 from datetime import datetime
 import pickle
@@ -67,7 +67,7 @@ def read_json_file(file):
 
 
 def read_csv(file):
-    df = pandas.read_csv(file, sep=';', encoding="ISO-8859-1")
+    df = pd.read_csv(file, sep=';', encoding="ISO-8859-1")
     return df
 
 
@@ -88,7 +88,7 @@ def read_behavior_file(file):
     behaviors_csv = csv.reader(behavior_file, delimiter="\t")
     behaviors = []
     for a in behaviors_csv:
-        impression_index = a[0]
+        impression_index = int(a[0])
         userid = a[1]
         date = datetime.strptime(a[2], "%m/%d/%Y %I:%M:%S %p")
         history = a[3].split(" ")
@@ -108,9 +108,9 @@ def create_pickle(o, path):
         pickle.dump(o, f)
 
 
-def read_files(article_f="data/articles.pickle", recommendation_f="data/recommendations.pickle", behavior_f="data/behaviors.tsv"):
-    articles = read_pickle(article_f)
-    recommendations = read_pickle(recommendation_f)
+def read_files(article_f="data/articles.json", recommendation_f="data/recommendations.json", behavior_f="data/behaviors.tsv"):
+    articles = pd.read_json(article_f)
+    recommendations = pd.read_json(recommendation_f)
     behavior_file = read_behavior_file(behavior_f)
     return articles, recommendations, behavior_file
 

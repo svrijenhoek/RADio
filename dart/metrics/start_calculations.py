@@ -133,13 +133,13 @@ class MetricsCalculator:
                                                'value': fragmentation[1][1]}})
                         if activation:
                             data.append({**row, **{'metric': 'activation', 'discount': 'Y', 'distance': 'kl',
-                                               'value': affect[0][0]}})
+                                               'value': activation[0][0]}})
                             data.append({**row, **{'metric': 'activation', 'discount': 'Y', 'distance': 'jsd',
-                                               'value': affect[0][1]}})
+                                               'value': activation[0][1]}})
                             data.append({**row, **{'metric': 'activation', 'discount': 'N', 'distance': 'kl',
-                                               'value': affect[1][0]}})
+                                               'value': activation[1][0]}})
                             data.append({**row, **{'metric': 'activation', 'discount': 'N', 'distance': 'jsd',
-                                               'value': affect[1][1]}})
+                                               'value': activation[1][1]}})
                         if representation:
                             data.append({**row, **{'metric': 'representation', 'discount': 'Y', 'distance': 'kl',
                                                'value': representation[0][0]}})
