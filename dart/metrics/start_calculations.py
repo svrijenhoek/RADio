@@ -40,7 +40,7 @@ class MetricsCalculator:
         if self.config['test_size'] > 0:
             self.behavior_file = sample(self.behavior_file, self.config['test_size'])
 
-        self.timer = {'calibration': 0, 'fragmentation': 0, 'affect': 0, 'representation': 0, 'alternative': 0,
+        self.timer = {'calibration': 0, 'fragmentation': 0, 'activation': 0, 'representation': 0, 'alternative': 0,
                       'retrieving_articles': 0, 'sampling': 0}
 
     def create_sample(self):
@@ -92,9 +92,9 @@ class MetricsCalculator:
                         fragmentation = self.Fragmentation.calculate(frag_articles, recommendation_articles)
                         t3 = time.time()
                         self.timer['fragmentation'] += t3-t2
-                        affect = self.Activation.calculate(pool_articles, recommendation_articles)
+                        activation = self.Activation.calculate(pool_articles, recommendation_articles)
                         t4 = time.time()
-                        self.timer['affect'] += t4-t3
+                        self.timer['activation'] += t4-t3
                         representation = self.Representation.calculate(pool_articles, recommendation_articles)
                         t5 = time.time()
                         self.timer['representation'] += t5-t4
@@ -131,14 +131,14 @@ class MetricsCalculator:
                                                'value': fragmentation[1][0]}})
                             data.append({**row, **{'metric': 'fragmentation', 'discount': 'N', 'distance': 'jsd',
                                                'value': fragmentation[1][1]}})
-                        if affect:
-                            data.append({**row, **{'metric': 'affect', 'discount': 'Y', 'distance': 'kl',
+                        if activation:
+                            data.append({**row, **{'metric': 'activation', 'discount': 'Y', 'distance': 'kl',
                                                'value': affect[0][0]}})
-                            data.append({**row, **{'metric': 'affect', 'discount': 'Y', 'distance': 'jsd',
+                            data.append({**row, **{'metric': 'activation', 'discount': 'Y', 'distance': 'jsd',
                                                'value': affect[0][1]}})
-                            data.append({**row, **{'metric': 'affect', 'discount': 'N', 'distance': 'kl',
+                            data.append({**row, **{'metric': 'activation', 'discount': 'N', 'distance': 'kl',
                                                'value': affect[1][0]}})
-                            data.append({**row, **{'metric': 'affect', 'discount': 'N', 'distance': 'jsd',
+                            data.append({**row, **{'metric': 'activation', 'discount': 'N', 'distance': 'jsd',
                                                'value': affect[1][1]}})
                         if representation:
                             data.append({**row, **{'metric': 'representation', 'discount': 'Y', 'distance': 'kl',
