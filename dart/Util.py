@@ -108,3 +108,10 @@ def create_pickle(o, path):
         pickle.dump(o, f)
 
 
+def read_files(article_f="data/articles.pickle", recommendation_f="data/recommendations.pickle", behavior_f="data/behaviors.tsv"):
+    articles = read_pickle(article_f)
+    recommendations = read_pickle(recommendation_f)
+    behavior_file = read_behavior_file(behavior_f)
+    return articles, recommendations, behavior_file
+
+

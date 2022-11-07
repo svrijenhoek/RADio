@@ -30,7 +30,7 @@ class MetricsCalculator:
         self.config = config
         self.Calibration = dart.metrics.calibration.Calibration(self.config)
         self.Fragmentation = dart.metrics.fragmentation.Fragmentation()
-        self.Affect = dart.metrics.activation.Affect(self.config)
+        self.Activation = dart.metrics.activation.Activation(self.config)
         self.Representation = dart.metrics.representation.Representation(self.config)
         self.AlternativeVoices = dart.metrics.alternative_voices.AlternativeVoices()
 
@@ -92,7 +92,7 @@ class MetricsCalculator:
                         fragmentation = self.Fragmentation.calculate(frag_articles, recommendation_articles)
                         t3 = time.time()
                         self.timer['fragmentation'] += t3-t2
-                        affect = self.Affect.calculate(pool_articles, recommendation_articles)
+                        affect = self.Activation.calculate(pool_articles, recommendation_articles)
                         t4 = time.time()
                         self.timer['affect'] += t4-t3
                         representation = self.Representation.calculate(pool_articles, recommendation_articles)
@@ -165,7 +165,7 @@ class MetricsCalculator:
                 else:
                     failure += 1
 
-        print(self.timer)
+        # print(self.timer)
         df = pd.DataFrame(data, columns=['impr_index', 'rec_type', 'cutoff', 'distance', 'discount', 'metric', 'value'])
         #
         # print(df.head())
@@ -182,6 +182,7 @@ class MetricsCalculator:
         output_folder = self.config["output_folder"]
         self.write_to_file(df, output_folder)
         dart.metrics.visualize.Visualize.visualize(df, 10, 'jsd')
+        return df
 
     @staticmethod
     def write_to_file(df, output_folder):

@@ -48,13 +48,13 @@ class Visualize:
     def violin_plot_per_distance(df, output_folder):
         pd.options.mode.chained_assignment = None
         columns = list(df.columns)[2:8]
-        metrics = ['kl', 'kl_symm', 'jsd']
+        metrics = ['kl', 'jsd']
         for i, column in enumerate(columns):
             fig, axs = plt.subplots(ncols=len(metrics))
             fig.suptitle(column)
             df1 = df[['rec_type']]
             try:
-                df1['kl'], df1['jsd'], df1['kl_symm'] = df[column].str
+                df1['kl'], df1['jsd'] = df[column].str
                 print(column)
                 print(df1.groupby('rec_type').mean())
                 for a, metric in enumerate(metrics):
@@ -75,7 +75,7 @@ class Visualize:
         sns.violinplot(data=df1, x='calibration_topic', y="rec_type", inner="quart", split=True, ax=axs[0][0])
         sns.violinplot(data=df1, x='calibration_complexity', y="rec_type", inner="quart", split=True, ax=axs[0][1])
         sns.violinplot(data=df1, x='fragmentation', y="rec_type", inner="quart", split=True, ax=axs[0][2])
-        sns.violinplot(data=df1, x='affect', inner="quart", y="rec_type", split=True, ax=axs[1][0])
+        sns.violinplot(data=df1, x='activation', inner="quart", y="rec_type", split=True, ax=axs[1][0])
         sns.violinplot(data=df1, x='representation', y="rec_type", inner="quart", split=True, ax=axs[1][1])
         sns.violinplot(data=df1, x='alternative_voices', y="rec_type", inner="quart", split=True, ax=axs[1][2])
         plt.show()
