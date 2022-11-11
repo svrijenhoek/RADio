@@ -59,14 +59,12 @@ class Representation:
             rank += 1
             d = defaultdict(int)
             # for each party specified in the configuration file
-            try:
+            if entities:
                 persons = filter(lambda x: x['label'] == 'PERSON', entities)
-            except TypeError:
-                persons = []
-            for person in persons:
-                if 'party' in person and person['party']:
-                    d[person['party'][0]] += len(person['spans'])
-                    total += len(person['spans'])
+                for person in persons:
+                    if 'party' in person and person['party']:
+                        d[person['party'][0]] += len(person['spans'])
+                        total += len(person['spans'])
 
             for party, mentions in d.items():
                     party_freq = distr.get(party, 0.)

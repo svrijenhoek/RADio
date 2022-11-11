@@ -79,7 +79,11 @@ class AlternativeVoices:
             article_majority = self.mainstream_scores[indx]['majority']
             article_minority = self.mainstream_scores[indx]['minority']
         else:
-            persons = filter(lambda x: x['label'] == 'PERSON', article.entities)
+            try:
+                persons = filter(lambda x: x['label'] == 'PERSON', article.entities)
+            except TypeError:
+                print(article.entities)
+                persons = []
             for person in persons:
                 if 'givenname' in person:
                     article_majority += len(person['spans'])
