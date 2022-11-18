@@ -77,11 +77,13 @@ class MetricsCalculator:
             self.timer['sampling'] += tz - ty
             recommendation = self.recommendations.loc[impr_index]
             for recommendation_type in self.config['algorithms']:
-                recommendation_articles = self.retrieve_articles([_id for _id in recommendation[recommendation_type]])
-                if not recommendation_articles.empty and not pool_articles.empty:
+                recommendation_all = self.retrieve_articles([_id for _id in recommendation[recommendation_type]])
+                if not recommendation_all.empty and not pool_articles.empty:
                     for cutoff in self.config['cutoff']:
                         if cutoff > 0:
-                            recommendation_articles = recommendation_articles[:cutoff]
+                            recommendation_articles = recommendation_all[:cutoff]
+                        else:
+                            recommendation_articles = recommendation_all
                         t1 = time.time()
                         calibration = self.Calibration.calculate(reading_history, recommendation_articles)
                         t2 = time.time()
