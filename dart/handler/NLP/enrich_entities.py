@@ -1,28 +1,29 @@
 import dart.Util
 import dart.handler.other.wikidata
 import string
-import pandas as pd
 from collections import defaultdict
 import os
 
 
 class EntityEnricher:
 
-    def __init__(self, metrics, language, politics):
-        self.metrics = metrics
-        self.language = language
-        self.wikidata = dart.handler.other.wikidata.WikidataHandler(self.language)
-        self.printable = set(string.printable)
-        self.political_data = pd.DataFrame(politics)
+    def __init__(self, config):
+        self.config = config
+        self.metrics = config["metrics"]
+        self.language = config["language"]
+        self.country = config["country"]
+        self.wikidata = dart.handler.other.wikidata.WikidataHandler(self.language, self.country)
+        self.political_data = self.wikidata.get_politicians()
         self.unknown_persons = defaultdict(int)
+        self.printable = set(string.printable)
 
-        if os.path.exists("metadata/persons.json"):
-            self.persons = dart.Util.read_json_file("metadata/persons.json")
+        if os.path.exists(config["data_folder"]+"persons.json"):
+            self.persons = dart.Util.read_json_file(config["data_folder"]+"persons.json")
         else:
             self.persons = {}
 
-        if os.path.exists("metadata/organizations.json"):
-            self.organizations = dart.Util.read_json_file("metadata/organizations.json")
+        if os.path.exists(config["data_folder"]+"organizations.json"):
+            self.organizations = dart.Util.read_json_file(config["data_folder"]+"organizations.json")
         else:
             self.organizations = {}
 
@@ -152,5 +153,5 @@ class EntityEnricher:
         return entity
 
     def save(self):
-        dart.Util.write_to_json("metadata/persons.json", self.persons)
-        dart.Util.write_to_json("metadata/organizations.json", self.organizations)
+        dart.Util.write_to_json(self.config["data_folder"]+"persons.json", self.persons)
+        dart.Util.write_to_json(self.config["data_folder"]+"organizations.json", self.organizations)

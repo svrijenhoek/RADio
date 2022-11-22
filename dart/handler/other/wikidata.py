@@ -1,18 +1,41 @@
 import requests
 import json
+import pandas as pd
 
 
 class WikidataHandler:
     """ Class that constructs Wikidata queries, executes them and reads responses """
 
-    def __init__(self, language):
+    def __init__(self, language, country):
         self.url = 'https://query.wikidata.org/sparql'
         if language == 'dutch':
             self.language_tag = 'nl'
+            self.parliament_indicator = 'Q18887908 ; pq:P580 ?start .'
         elif language == 'english':
             self.language_tag = 'en'
+            if country == 'united states':
+                self.parliament_indicator = 'Q13218630; pq:P580 ?start .'
+            elif country == 'united kingdom':
+                self.parliament_indicator = 'Q16707842 ; pq:P580 ?start .'
         elif language == 'german':
             self.language_tag = 'de'
+            # this one is not functioning yet
+            self.parliament_indicator = 'Q154797'
+        elif language == 'french':
+            self.language_tag = 'fr'
+            if country == 'canada':
+                self.parliament_indicator = 'Q15964890 ; pq:P2937 wd:Q108651352.'
+            elif country == 'france':
+                self.parliament_indicator = 'Q3044918 ; pq:P2937 wd:Q24939798 .'
+        elif language == 'danish':
+            self.language_tag = 'dk'
+            self.parliament_indicator = 'Q12311817 ; pq:P2937 wd:Q114902058 .'
+        elif language == 'portuguese':
+            self.language_tag == 'pt'
+            if country == 'brazil':
+                self.parliament_indicator = 'Q20058725 ; pq:P2937 wd:Q18479094 .'
+            elif country == 'portugal':
+                self.parliament_indicator = 'Q19953703 ; pq:P580 ?start .'
 
     def execute_query(self, query):
         """
@@ -166,3 +189,33 @@ class WikidataHandler:
             return self.read_company_response_list(r)
         except ConnectionAbortedError:
             return []
+
+    def get_politicians(self):
+        try:
+            query = """
+                SELECT ?itemLabel ?groupLabel
+                  WHERE { 
+                    ?item p:P39 ?ps . 
+                    ?ps ps:P39/wdt:P279* wd:"""+self.parliament_indicator+"""
+                    OPTIONAL { ?ps pq:P580 ?start }
+                    OPTIONAL { ?ps pq:P582 ?end }
+                    OPTIONAL { ?ps pq:P4100 ?group }
+                    FILTER(!BOUND(?end))
+                    SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+                    }
+            """
+            r = self.execute_query(query)
+            data = r.json()
+
+            output = []
+            for x in data['results']['bindings']:
+                row = {}
+                for label in x:
+                    row[label] = x[label]['value']
+                output.append(row)
+
+            df = pd.DataFrame(output)
+            df = df.rename(columns={'itemLabel': 'name', 'groupLabel': 'group', 'districtLabel': 'district'})
+            return df
+        except ConnectionAbortedError:
+            return pd.DataFrame()
