@@ -22,20 +22,16 @@ def read_config_file():
 def read_full_config_file():
     data = read_config_file()
     dictionary = {}
-    dictionary['append'] = data['append']
     dictionary['test_size'] = data['test_size']
     dictionary['metrics'] = data['metrics']
     dictionary['cutoff'] = data['cutoff']
     dictionary['language'] = data['language']
-
-    dictionary['behavior_file'] = data['behavior_file']
+    dictionary['country'] = data['country']
     dictionary['algorithms'] = data['algorithms']
-    dictionary["politics_file"] = data["political_file"]
-    dictionary["articles"] = data["articles"]
-    dictionary["recommendations"] = data["recommendations"]
     dictionary["output_folder"] = data["output_folder"]
-    dictionary["metadata_folder"] = data["metadata_folder"]
-    dictionary["mind_type"] = data["mind_type"]   
+    dictionary["mind_type"] = data["mind_type"]
+    dictionary["data_type"] = data["data_type"]
+    dictionary["data_folder"] = "data/"+dictionary["data_type"]+"/"
     return dictionary
 
 
