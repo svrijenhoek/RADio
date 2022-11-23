@@ -31,7 +31,7 @@ This repository contains the supporting material for the paper `r emo::ji("radio
 5. Put `behaviors_large.tsv` in the data/recommendations folder
 
 ```{}
-git clone https://anonymous.4open.science/r/RADio/
+git clone https://github.com/svrijenhoek/RADio.git
 pip install -r requirements.txt
 python metrics_calculations.py
 ```
