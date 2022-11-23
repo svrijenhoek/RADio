@@ -17,8 +17,8 @@ networkx~=2.5
 textblob~=0.15.3
 pymongo
 bs4
-lxml
-python-louvain
+lxml~=4.9.0
+python-louvain~=0.15
 textstat~=0.7.1
 recommenders[examples]
 https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.0.0/en_core_web_sm-3.0.0.tar.gz#egg=en_core_web_sm
