@@ -13,7 +13,7 @@ regex
 matplotlib
 community~=1.0.0b1
 scipy~=1.6.3
-networkx~=2.5
+networkx~=2.8.8
 textblob~=0.15.3
 bs4
 lxml~=4.9.0
