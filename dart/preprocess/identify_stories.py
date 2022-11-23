@@ -23,7 +23,7 @@ class StoryIdentifier:
         self.threshold = 0.50
         self.categories = ["news", "sports", "finance", "weather", "travel", "video", "foodanddrink", "lifestyle", "autos",
                            "health", "tv", "music", "movies", "entertainment"]
-        self.v = TfidfVectorizer(stop_words=config['language'])
+        self.v = TfidfVectorizer(stop_words='english')
 
     def vectorize(self, text):
         try:

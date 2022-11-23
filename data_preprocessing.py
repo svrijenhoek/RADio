@@ -13,12 +13,11 @@ def main():
 
     # downloads external data sources
     print(str(datetime.datetime.now()) + "\tStep 1 of 5: downloading necessary files")
-    if config["data_type"] == "mind":
-        dart.preprocess.downloads.execute(config)
+    dart.preprocess.downloads.execute(config)
 
     # preprocess data
     print(str(datetime.datetime.now()) + "\tStep 2 of 5: data annotation")
-    df = dart.preprocess.nlp.ProcessText(config).execute()
+    df = dart.preprocess.nlp.execute()
 
     # enrich articles
     print(str(datetime.datetime.now()) + "\tStep 3 of 5: enriching entities")
