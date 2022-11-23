@@ -43,7 +43,7 @@ recommendations*.
 
     git clone https://github.com/svrijenhoek/RADio.git
     pip install -r requirements.txt
-    python metrics_calculations.py
+    python metrics_calculation.py
 
 # 2 from scratch
 
