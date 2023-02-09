@@ -12,8 +12,8 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 # document-similarity-analysis-using-elasticsearch-and-python
 class CosineSimilarity:
 
-    def __init__(self):
-        self.v = TfidfVectorizer(stop_words='english')
+    def __init__(self, config):
+        self.v = TfidfVectorizer(stop_words=config['language'])
 
     def create_dictionary(self, doc):
         output = {}

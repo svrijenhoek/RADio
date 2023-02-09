@@ -16,11 +16,34 @@ class Representation:
         self.config = config
         self.party_data = {}
 
-        self.political_parties = np.array([
-            ["Democrat", "Democratic Party"],
-            ["Republican", "Republican Party"],
-            #["", "Independent"],
-        ])
+        all_political_parties = {
+            'us':
+                np.array([
+                ["Democrat", "Democratic Party"],
+                ["Republican", "Republican Party"],
+                ]),
+            'nl':
+                np.array([
+                    ["VVD", "Volkspartij voor Vrijheid en Democratie"],
+                    ["D66", "Democraten 66"],
+                    ["PVV", "Partij voor de Vrijheid"],
+                    ["CDA", "Christen-Democratisch Appèl"],
+                    ["SP", "Socialistische Partij"],
+                    ["PvdA", "Partij van de Arbeid"],
+                    ["GL", "GroenLinks"],
+                    ["PvdD", "Partij voor de Dieren"],
+                    ["CU", "ChristenUnie"],
+                    ["FVD", "Forum voor Democratie"],
+                    ["JA21", "JA21"],
+                    ["SGP", "Staatkundig Gereformeerde Partij"],
+                    ["DENK", "DENK"],
+                    ["Volt", "Volt Nederland"],
+                    ["BBB", "BoerBurgerBeweging"],
+                    ["BIJ1", "BIJ1"],
+                    ["50PLUS", "50PLUS"]
+                ])
+        }
+        self.political_parties = all_political_parties[config['country']]
 
     @staticmethod
     def in_entities(entities, party):

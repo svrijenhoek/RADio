@@ -1,6 +1,8 @@
 import datetime
 # if that doesn't work, do pip install -U numpy
- # https://discuss.pytorch.org/t/valueerror-and-importerror-occurred-when-import-torch/5818
+# https://discuss.pytorch.org/t/valueerror-and-importerror-occurred-when-import-torch/5818
+
+import nl_core_news_sm
 import pandas as pd
 import en_core_web_sm
 from textblob import TextBlob
@@ -8,8 +10,20 @@ import textstat
 import json
 import os
 
-nlp = en_core_web_sm.load(disable=['parser'])
-textstat.set_lang("en")
+import dart.Util
+
+
+config = dart.Util.read_config_file()
+language = config["language"]
+
+if language == 'english':
+    nlp = en_core_web_sm.load(disable=['parser'])
+    textstat.set_lang('en')
+elif language == 'dutch':
+    nlp = nl_core_news_sm.load(disable=['parser'])
+    textstat.set_lang('nl')
+else:
+    raise Exception("Sorry, language not implemented yet")
 
 
 def process(df):
@@ -41,7 +55,7 @@ def process(df):
                 complexity = textstat.flesch_reading_ease(doc.text)
                 df.at[index, "complexity"] = complexity
 
-            df.to_json("data/annotated.json")
+            df.to_json("data/rtl/annotated.json")
     return df
 
 
@@ -52,16 +66,17 @@ def resolve_dates(df):
 
 
 def execute():
-    if os.path.exists("data/annotated.json"):
-        texts = pd.read_json("data/annotated.json")
+    if os.path.exists("data/rtl/annotated.json"):
+        texts = pd.read_json("data/rtl/annotated.json")
     else:
-        texts = pd.read_csv("data/article_text.csv").set_index('ID')
+        texts = pd.read_csv("data/rtl/article_text.csv").set_index('ID')
 
     texts.drop(texts[texts.text == 'not found'].index, inplace=True)
     texts = texts.dropna(subset=['text'])
 
     if 'entities' not in texts:
         texts["entities"] = None
+        texts["entities_base"] = None
         texts["sentiment"] = None
         texts["complexity"] = None
 

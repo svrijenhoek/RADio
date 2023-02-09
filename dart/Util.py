@@ -27,7 +27,7 @@ def read_full_config_file():
     dictionary['metrics'] = data['metrics']
     dictionary['cutoff'] = data['cutoff']
     dictionary['language'] = data['language']
-
+    dictionary['country'] = data['country']
     dictionary['behavior_file'] = data['behavior_file']
     dictionary['algorithms'] = data['algorithms']
     dictionary["politics_file"] = data["political_file"]

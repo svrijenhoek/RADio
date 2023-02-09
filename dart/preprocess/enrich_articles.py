@@ -12,8 +12,7 @@ class Enricher:
         self.config = config
         self.metrics = config['metrics']
         self.language = config['language']
-        self.enricher = dart.handler.NLP.enrich_entities.EntityEnricher(self.metrics, self.language,
-                                                                        pd.read_csv('metadata\\term-116.csv'))
+        self.enricher = dart.handler.NLP.enrich_entities.EntityEnricher(self.metrics, config)
         self.clusterer = dart.handler.NLP.cluster_entities.Clustering(0.9, 'a', 'b', 'metric')
 
     def annotate_entities(self, entities):
@@ -38,7 +37,7 @@ class Enricher:
         length = len(to_process)
         for index, row in to_process.iterrows():
             enriched_entities = self.enrich_document(row['entities_base'])
-            df.at[index, 'entities'] = enriched_entities
+            df.at[index, 'enriched_entities'] = enriched_entities
 
             if count % split == 0:
                 print("\t{}, {:.2f}%".format(count, count/length*100))

@@ -8,12 +8,13 @@ import os
 
 class EntityEnricher:
 
-    def __init__(self, metrics, language, politics):
+    def __init__(self, metrics, config):
         self.metrics = metrics
-        self.language = language
-        self.wikidata = dart.handler.other.wikidata.WikidataHandler(self.language)
+        self.language = config['language']
+        self.country = config['country']
+        self.wikidata = dart.handler.other.wikidata.WikidataHandler(self.language, self.country)
         self.printable = set(string.printable)
-        self.political_data = pd.DataFrame(politics)
+        self.political_data = pd.DataFrame(self.wikidata.get_politicians())
         self.unknown_persons = defaultdict(int)
 
         if os.path.exists("metadata/persons.json"):
