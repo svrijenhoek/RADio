@@ -54,6 +54,10 @@ def process():
         nrms_list = []
         pop_list = []
         random_list = []
+
+        # Create a copy of the list of items, so we can .pop() random items from it
+        random_items = items.copy()
+
         for x in range(1, min(9, len(items) + 1)):
             try:
                 lstur_list.append(items[lstur_row.index(x)].split("-")[0])
@@ -64,8 +68,8 @@ def process():
 
                 # Select random item from the list of candidates, and remove it from the list, so it 
                 # can't be selected again for this impression
-                random_index = random.randint(0, len(items)-1)
-                selected_item = items.pop(random_index)
+                random_index = random.randint(0, len(random_items)-1)
+                selected_item = random_items.pop(random_index)
                 random_list.append(selected_item.split("-")[0])
             except IndexError:
                 pass
