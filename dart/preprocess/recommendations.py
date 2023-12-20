@@ -61,8 +61,12 @@ def process():
                 npa_list.append(items[npa_row.index(x)].split("-")[0])
                 nrms_list.append(items[nrms_row.index(x)].split("-")[0])
                 pop_list.append(items[pop_row.index(x)].split("-")[0])
+
+                # Select random item from the list of candidates, and remove it from the list, so it 
+                # can't be selected again for this impression
                 random_index = random.randint(0, len(items)-1)
-                random_list.append(items[random_index].split("-")[0])
+                selected_item = items.pop(random_index)
+                random_list.append(selected_item.split("-")[0])
             except IndexError:
                 pass
         data.append({'impr_index': impression_index, 'userid': userid, 'date': date, 'lstur': lstur_list,
